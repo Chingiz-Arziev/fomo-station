@@ -1,13 +1,115 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
+
+.form {
+  width: 300px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
+  border-radius: 10px;
+}
+
+.form h1 {
+  color: #0c6bc5;
+  font-weight: normal;
+}
+
+.form input {
+  margin-bottom: 25px;
+  min-width: 250px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  border-radius: 2px;
+  font-size: 16px;
+  background-color: transparent;
+  transition: 0.5s;
+}
+
+.form input:focus {
+  border-bottom: 2px solid #1f90f6;
+  border-radius: 2px;
+}
+
+.form button {
+  min-width: 270px;
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #428dff;
+  color: #fff;
+  height: 50px;
+  outline: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.form button:hover {
+  background-color: #2e84ff;
+}
+
+.form button:active {
+  background-color: #217be0;
+}
+
+.modal {
+  width: 300px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal h3 {
+  color: #0c6bc5;
+}
+
+.modal button {
+  min-width: 270px;
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #428dff;
+  color: #fff;
+  height: 50px;
+  outline: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.modal iframe {
+  margin: 10px 0;
+}
+
+.modal button:hover {
+  background-color: #2e84ff;
+}
+
+.modal button:active {
+  background-color: #217be0;
+}
+
