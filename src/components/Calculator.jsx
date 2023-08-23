@@ -1,58 +1,63 @@
-import {useState} from "react";
+import { useState } from "react"
 
-import axios from "axios";
+import { fetchSelectedPrice, fetchCurrentPrice } from "../services/fetchDataFromCoingecko"
 
 import Modal from './Modal'
 
-function Calculator() {
+const  CalculatorTest = () => {
   const [coin, setCoin] = useState('')
   const [date, setDate] = useState('')
   const [investmentAmount, setInvestmentAmount] = useState('')
 
-  const [selectedPrice, setSelectedPrice] = useState('')
-  const [currentPrice, setCurrentPrice] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
-  const [profitResult, setProfitResult] = useState('')
-  const [lossResult, setLossResult] = useState('')
+  const [selectedPrice, setSelectedPrice] = useState(null)
+  const [currentPrice, setCurrentPrice] = useState(null)
 
-  const [showModal, setShowModal] = useState(null)
+  const [profitResult, setProfitResult] = useState(null)
+  const [lossResult, setLossResult] = useState(null)
 
-  const getSelectedPrice = async () => {
-    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/history?date=${date.split("-").reverse().join("-")}`)
-    const data = await response.data.market_data.current_price.usd
-    setSelectedPrice(data)
-  }
+  const calculated = async (event) => {
+    event.preventDefault()
+  
+    if (!coin || !date || !investmentAmount) {
+      return
+    }
+  
+    try {
+      const selectedPriceData = await fetchSelectedPrice(coin, date)
+      setSelectedPrice(selectedPriceData)
+  
+      const currentPriceData = await fetchCurrentPrice(coin)
+      setCurrentPrice(currentPriceData)
+  
+      const coinAmount = investmentAmount / selectedPriceData
+      const difference = coinAmount * currentPriceData
+  
+      if (difference > investmentAmount) {
+        setProfitResult(Number(difference - investmentAmount).toFixed(2))
+        setLossResult(null)
+        console.log(profitResult); 
+      } else if (difference < investmentAmount) {
+        setLossResult(Number(investmentAmount - difference).toFixed(2))
+        setProfitResult(null)
+      } else {
+        setLossResult(null)
+        setProfitResult(null)
+      }
 
-  const getCurrentPrice = async () => {
-    const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${coin}&vs_currencies=usd`)
-    const data = await (Object.values(response.data)[0].usd)
-    setCurrentPrice(data)
-  }
-
-  const calculated = (e) => {
-    e.preventDefault()
-
-    getSelectedPrice().then()
-    getCurrentPrice().then()
-
-    if(coin && date && investmentAmount) {
       setShowModal(true)
-      const coinAmount = (investmentAmount / selectedPrice)
-      const difference = coinAmount * currentPrice
-
-      if(difference > investmentAmount) {
-        setProfitResult(difference.toFixed(2))
-      }
-
-      if(difference < investmentAmount) {
-        setLossResult((investmentAmount - difference).toFixed(2))
-      }
+    } catch (error) {
+      console.error('Ошибка при получении данных:', error)
+      alert('Ошибка ввода данных: данные не существуют', error)
     }
   }
 
   return (
     <div className="wrapper">
-      {showModal ?
+      {
+        showModal ? 
+
         <Modal
           setShowModal={setShowModal}
           profitResult={profitResult}
@@ -60,8 +65,8 @@ function Calculator() {
         />
 
         :
-
-        <form action="" className="form">
+        
+        <form className="form">
           <h1>GET SOME FOMO</h1>
           <input
             onChange={(e) => setCoin(e.target.value)}
@@ -80,9 +85,9 @@ function Calculator() {
           />
           <button onClick={calculated}>CALCULATE</button>
         </form>
-      }
+      }        
     </div>
   )
 }
 
-export default Calculator
+export default CalculatorTest

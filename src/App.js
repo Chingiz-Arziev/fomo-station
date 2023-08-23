@@ -1,12 +1,12 @@
 import Header from './components/Header'
-import CalculatorTest from './components/CalculatorTest'
+import Calculator from './components/Calculator'
 import Footer from './components/Footer'
 
 function App() {
   return (
     <div className="App">
       <Header/>
-      <CalculatorTest/>
+      <Calculator/>
       <Footer/>
     </div>
   );
